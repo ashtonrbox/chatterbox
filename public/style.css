@@ -1,0 +1,832 @@
+:root {
+    --accent: #5AC800;
+    --darkAccent: #4dab00;
+    --white: #f7f7f7;
+    --grey: #dadada;
+    --black: #393939;
+
+    --transition: all 0.1s ease-in-out;
+
+    --gap: 10px;
+    --padding: 10px;
+    --buttonPadding: 5.5px 15px 14.5px 15px;
+    --margin: 10px;
+    --textMargin: 10px 0 10px 0;
+    --borderRadius: 15.5px;
+    --buttonBorderRadius: 15.5px 14.5px 14.5px 15.5px;
+}
+
+body {
+    background-color: #f1f1f1d3;
+    background-image: url(/assets/bg.png);
+    background-position: center;
+    background-repeat: repeat;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    cursor: default;
+    user-select: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+
+#draggable {
+    app-region: drag;
+    position: fixed;
+    width: 100%;
+    height: 20px;
+    top: 0;
+    left: 0;
+    opacity: 0.05;
+    z-index: 9999;
+}
+
+#window {
+    position: fixed;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+@font-face {
+    font-family: 'Funnel';
+    src: url(assets/funnel.ttf);
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(assets/inter.ttf);
+}
+
+@font-face {
+    font-family: 'Lexend';
+    src: url(assets/lexend.ttf);
+}
+
+p {
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--black);
+    letter-spacing: -0.55px;
+    margin: var(--textMargin);
+}
+
+h1 {
+    font-family: 'Funnel';
+    font-weight: 600;
+    font-size: 55px;
+    color: var(--accent);
+    letter-spacing: -0.55px;
+    margin: var(--textMargin);
+}
+
+h3 {
+    font-family: 'Funnel';
+    font-weight: 600;
+    font-size: 35px;
+    color: var(--accent);
+    letter-spacing: -0.55px;
+    margin: var(--textMargin);
+}
+
+h2 {
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 32px;
+    color: var(--black);
+    letter-spacing: -0.55px;
+    margin: var(--textMargin);
+    text-align: center;
+}
+
+h6 {
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 10px;
+    color: #b5b5b5;
+    letter-spacing: -0.55px;
+    margin: var(--textMargin);
+}
+
+h4 {
+    font-family: 'Lexend';
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.55px;
+    margin: 0px;
+    padding: 0px;
+}
+
+h5 {
+    color: var(--grey);
+    font-size: 13px;
+    font-family: "inter";
+    font-weight: 400;
+    margin: 0;
+}
+
+button {
+    border-radius: var(--buttonBorderRadius);
+    background: var(--accent);
+    color: var(--white);
+    padding: var(--buttonPadding);
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 35px;
+    border: 0px solid var(--darkAccent);
+    border-bottom: 5px solid var(--darkAccent);
+    width: fit-content;
+    transition: var(--transition);
+}
+
+button:active {
+    background: var(--accent);
+    border-bottom: 0px solid var(--darkAccent);
+    height: 30px;
+    margin-top: 5px;
+}
+
+input,
+textarea {
+    border: none;
+    border-radius: var(--borderRadius);
+    box-sizing: border-box;
+    background: var(--grey);
+    color: var(--black);
+    padding: var(--padding);
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 17px;
+    height: 35px;
+    width: 180px;
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    height: 100%;
+    width: 100%;
+    padding-top: 8px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #ababab;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.centerFlex {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+.smallBR {
+    height: 3px;
+}
+
+#messageArea,
+#gate {
+    display: none;
+}
+
+#realColorPicker {
+    width: 0px;
+    border: 0px;
+    padding: 0px;
+    margin-right: -10px;
+    pointer-events: none;
+    opacity: 0;
+    cursor: default;
+}
+
+#colorPicker {
+    width: 40px;
+    height: 35px;
+    box-sizing: border-box;
+    border: 5px solid var(--grey);
+    border-radius: var(--borderRadius);
+    background: var(--accent);
+    cursor: pointer;
+}
+
+#topBar {
+    position: fixed;
+    width: calc(100% - 400px);
+    height: 65px;
+    top: 0;
+    left: 50%;
+    z-index: 9;
+    background: var(--white);
+    border: solid 3px var(--grey);
+    border-top: 0px;
+    box-sizing: border-box;
+    border-radius: 0 0 25px 25px;
+    display: flex;
+    transform: translateX(-50%);
+    padding: var(--padding) 15px;
+}
+
+#topBar>.flex {
+    justify-content: space-between;
+    width: 100%;
+}
+
+#messageForm {
+    position: fixed;
+    width: calc(50%);
+    height: 185px;
+    bottom: 0px;
+    left: 50%;
+    z-index: 9;
+    background: var(--white);
+    border: solid 3px var(--grey);
+    border-bottom: 0px;
+    box-sizing: border-box;
+    border-radius: 25px 25px 0px 0px;
+    transform: translateX(-50%);
+    padding: var(--padding);
+    display: flex;
+    gap: var(--gap);
+}
+
+#mobileShare {
+    display: none;
+}
+
+button#mobileShare>img {
+    width: 25px;
+}
+
+button#mobileShare {
+    padding: 4px 10px 6px 10px;
+}
+
+#modal {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background: #7373737c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    display: none;
+}
+
+#modalContent {
+    max-width: 400px;
+    background: var(--white);
+    border: solid 3px var(--grey);
+    box-sizing: border-box;
+    border-radius: var(--borderRadius);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.animate {
+    animation: modal 0.6s ease;
+}
+
+.animateContent {
+    animation: modalContent 0.6s ease;
+}
+
+@keyframes modal {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalContent {
+    from {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes close {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+#link, #websiteIndicator {
+    width: 100%;
+    background-color: var(--accent);
+    box-sizing: border-box;
+    border-radius: var(--borderRadius);
+    padding: var(--padding);
+    text-align: center;
+}
+
+#link>input, #websiteIndicator>input {
+    max-width: 100%;
+    word-break: break-word;
+    cursor: text;
+    user-select: text;
+    background: none;
+    width: 100%;
+    font-size: 25px;
+    color: var(--white);
+}
+#websiteIndicator>input {cursor: default;}
+
+#closeModal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--grey);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+}
+
+#closeModal>img {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1px;
+}
+
+.innerMessage {
+    width: 650px;
+    background: var(--white);
+    border: solid 3px var(--grey);
+    box-sizing: border-box;
+    border-radius: 25px;
+    padding: var(--padding);
+    margin: var(--margin);
+}
+
+.innerMessage>h2 {
+    margin: 0 !important;
+}
+
+.innerMessage>p {
+    margin-bottom: 0 !important;
+}
+
+.userColor {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--borderRadius);
+    box-sizing: border-box;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.userInfo>h2 {
+    margin: 0;
+    font-size: 25px;
+    margin-top: -10px;
+}
+
+.userInfo>h6 {
+    margin: 0;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    padding-top: 55px;
+    padding-bottom: 205px;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+#messages::-webkit-scrollbar {
+    display: none;
+}
+
+#addAttachment>h4 {
+    margin: 0;
+}
+
+#base>h4 {
+    color: var(--accent);
+}
+
+#drawing>h4 {
+    color: #FFAF01;
+}
+
+#image>h4 {
+    color: #E9316E;
+}
+
+#website>h4 {
+    color: #2580ef;
+}
+
+#addAttachment>div {
+    display: flex;
+    gap: var(--gap);
+    height: 15px;
+    align-items: center;
+    border-radius: var(--borderRadius);
+    padding: var(--padding);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+#addAttachment>div:hover {
+    background-color: var(--grey);
+}
+
+#addAttachment>div:active {
+    background-color: var(--grey);
+}
+
+.selectedAddAttachmentDiv {
+    background-color: var(--grey);
+}
+
+#addAttachment>div>img {
+    width: 22px;
+}
+
+#addAttachment {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--grey);
+    padding-right: 10px;
+}
+
+#attachment {
+    width: 100%;
+    height: calc(100% - 45px);
+    box-sizing: border-box;
+    position: relative;
+}
+
+#mainSection {
+    width: 100%;
+    gap: var(--gap);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#attraction {
+    width: 100%;
+}
+
+input#messageInput {
+    width: 100%;
+}
+
+.attachPanel {
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+#sLogo {
+    height: 35px;
+}
+
+#logo {
+    height: 65px;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: var(--borderRadius);
+    border: solid 1px var(--grey);
+}
+
+.clear {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 15px;
+    background-color: var(--white);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    border: 1px solid var(--grey);
+    border-radius: var(--borderRadius) 0;
+    padding: 6px;
+}
+
+.attachedDrawing {
+    margin-top: var(--margin);
+    width: 100%;
+    border: 1px solid var(--grey);
+    border-radius: var(--borderRadius);
+    box-sizing: border-box;
+    margin-bottom: -4px;
+}
+
+#fit,
+#fit2 {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--grey);
+    border-radius: var(--borderRadius);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+#fit2 {
+    cursor: default;
+    padding: var(--padding);
+}
+
+#fit>input {
+    display: none;
+}
+
+#fit>img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border: none;
+    border-radius: var(--borderRadius);
+    box-sizing: border-box;
+}
+
+.attachedImage {
+    margin-top: var(--margin);
+    height: 100%;
+    border: 1px solid var(--grey);
+    border-radius: var(--borderRadius);
+    box-sizing: border-box;
+    margin-bottom: -4px;
+    object-fit: contain;
+    max-height: 380px;
+    max-width: 100%;
+    width: auto;
+}
+
+#falseButton {
+    height: 100% !important;
+}
+
+#baseAttachment>.flex {
+    height: 100%;
+}
+
+.lastRead {
+    display: none;
+}
+
+#inside {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    gap: calc(var(--gap) + 10px);
+}
+
+#display {
+    width: 50%;
+    height: 100%;
+    border-radius: var(--borderRadius);
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid var(--grey);
+}
+
+#websiteInfo {
+    width: 50%;
+}
+
+#display>img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    border-radius: var(--borderRadius);
+}
+
+#display>p,
+#display>h1 {
+    display: none;
+}
+
+#websiteInput {
+    height: 100%;
+}
+
+.attachedWebsite {
+    margin-top: var(--margin);
+    height: 100%;
+    border: 1px solid var(--grey);
+    border-radius: var(--borderRadius);
+    box-sizing: border-box;
+    object-fit: contain;
+    max-height: 380px;
+    max-width: 100%;
+    width: auto;
+}
+
+.websiteFull {
+    width: 100%;
+    height: 100%;
+    padding: var(--padding);
+    box-sizing: border-box;
+    display: flex;
+    gap: var(--gap);
+}
+
+.websiteFull>img {
+    height: 170px;
+    min-width: 45%;
+    border-radius: var(--borderRadius);
+    object-fit: cover;
+}
+
+.websiteFull>div>* {
+    color: var(--black);
+}
+
+a {
+    text-decoration: none;
+}
+
+.websiteFull>div {
+    padding: var(--padding);
+    box-sizing: border-box;
+    max-height: 157px;
+    overflow: hidden;
+}
+
+.websiteFull>div>p {
+    max-height: 100px;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.websiteFull>div>h4 {
+    overflow: hidden;
+}
+
+.attachedWebsite>a>div>p {
+    margin: 0px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.attachedWebsite>a>div {
+    padding: var(--padding);
+}
+
+#vInfo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 1380px) {
+    #messageForm {
+        width: calc(60%);
+    }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 850px) {
+    #messageForm {
+        width: calc(90%);
+    }
+
+    #topBar {
+        width: calc(90%);
+    }
+
+    .innerMessage {
+        width: calc(85vw) !important;
+    }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 1200px) {
+    #welcome {
+        width: calc(550px) !important;
+    }
+
+    #realColorPicker {
+        width: 40px;
+        box-sizing: border-box;
+        border: 5px;
+        padding: 3px;
+        margin-right: -10px;
+        opacity: 1;
+        pointer-events: all;
+        cursor: pointer;
+    }
+
+    #colorPicker {
+        display: none;
+    }
+
+    .innerMessage {
+        width: calc(85vw - 400px);
+    }
+
+    #display {
+        width: 35%;
+    }
+
+    #websiteInfo {
+        width: 65%;
+    }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 800px) {
+    #welcome {
+        width: calc(90% - 40px) !important;
+    }
+
+    #logo {
+        height: 55px;
+    }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 465px) {
+    #messageForm {
+        width: calc(90%);
+    }
+
+    #topBar {
+        width: calc(90%);
+    }
+
+    #mobileShare {
+        display: block !important;
+    }
+
+    #share {
+        display: none !important;
+    }
+
+    #modalContent {
+        width: 90%;
+    }
+
+    .attachmentH4 {
+        display: none !important;
+    }
+
+    #logo {
+        height: 45px;
+    }
+
+    #messages {
+        padding-bottom: 300px;
+    }
+}

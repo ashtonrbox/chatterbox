@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatterbox</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="shortcut icon" href="/assets/chatterbox.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <div id="draggable"></div>
+
+    <div id="window">
+
+        <div id="gate">
+
+            <div class="centerFlex">
+
+                <div id="welcome" style="width: 550px;" class="centerFlex">
+
+                    <div id="vInfo">
+                        <h5></h5>
+                    </div>
+
+                    <img draggable="false" src="/assets/logo.png" id="logo" alt="">
+
+                    <br>
+
+                    <p>Welcome to Chatterbox! Chatterbox is a service that lets you message others on the same WiFi as
+                        you. It is accessible via any device running any browser. <br><br> To join the chat, simply
+                        enter a username and pick a colour!</p>
+
+                    <br>
+
+                    <div class="flex">
+                        <input type="text" id="usernameInput" placeholder="Enter username..." autocomplete="off"
+                            maxlength="15">
+                        <div id="colorPicker"></div>
+                        <input type="color" name="" id="realColorPicker" value="#5AC800">
+                    </div>
+                    <div class="smallBR"></div>
+                    <button id="enter">Join!</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="messageArea">
+
+            <div id="topBar">
+                <div class="flex">
+                    <img draggable="false" src="/assets/logo.png" id="sLogo" alt="">
+                    <button id="share">Share Link</button>
+                    <button id="mobileShare"><img draggable="false" src="/assets/link.png" alt=""></button>
+                </div>
+            </div>
+
+            <div class="centerFlex">
+                <div id="messages"></div>
+            </div>
+
+            <form id="messageForm" action="">
+
+                <div id="addAttachment">
+                    <div id="base"> <img draggable="false" src="/assets/message.png" alt="">
+                        <h4 class="attachmentH4">Message</h4>
+                    </div>
+
+                    <div id="drawing"> <img draggable="false" src="/assets/drawing.png" alt="">
+                        <h4 class="attachmentH4">Drawing</h4>
+                    </div>
+                    <div id="image"> <img draggable="false" src="/assets/image.png" alt="">
+                        <h4 class="attachmentH4">Image</h4>
+                    </div>
+                    <div id="website"> <img draggable="false" src="/assets/website.png" alt="">
+                        <h4 class="attachmentH4">Website</h4>
+                    </div>
+                </div>
+
+                <div id="mainSection">
+                    <div class="flex" id="attraction">
+                        <input placeholder="Type message here..." autocomplete="off" id="messageInput" />
+                        <button type="submit" id="sendButton">Send!</button>
+                    </div>
+                    <div id="attachment">
+
+                        <div class="attachPanel" id="baseAttachment">
+                            <div class="flex">
+                                <textarea placeholder="Type message here..." autocomplete="off" name=""
+                                    id="largeMessageInput"></textarea>
+                                <button id="falseButton">Send!</button>
+                            </div>
+                        </div>
+
+                        <div class="attachPanel" id="drawingAttachment">
+                            <div class="clear" title="Reset" id="clear"><img src="/assets/clear.png" alt=""></div>
+                            <canvas></canvas>
+                        </div>
+
+                        <div class="attachPanel" id="imageAttachment">
+                            <div id="fit">
+                                <input type="file" accept="image/*" id="imageInput" />
+                                <img draggable="false" src="/assets/imageT.png">
+                                <div class="clear" title="Reset" id="clearImage"><img class="no" src="/assets/clear.png"
+                                        alt=""></div>
+                            </div>
+                        </div>
+
+                        <div class="attachPanel" id="websiteAttachment">
+
+                            <div id="inside">
+
+                                <div id="websiteInfo">
+                                    <div class="flex" style="height: 100%;">
+                                        <textarea type="text" autocomplete="off" placeholder="Enter URL..."
+                                            id="websiteInput"></textarea>
+                                        <button id="websiteButton" style="height: 100%;">Add</button>
+                                    </div>
+                                </div>
+
+                                <div id="display">
+                                    <img draggable="false" src="/assets/imageT2.png" alt="">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <div class="clickOff" id="modal">
+        <div id="modalContent">
+
+            <div class="content" id="linkModal">
+                <h2 style="color: var(--accent);">Share Link</h2>
+                <div id="link"><input readonly></div>
+                <br>
+                <p>Click to highlight, then copy. This link can be shared with anyone who has access to the same WiFi as
+                    you!</p>
+
+            </div>
+
+            <div class="content" id="websiteModal">
+                <h2 style="color: var(--accent);">Leaving Chatterbox</h2>
+                <p>This link is taking you to the following website:</p>
+                <div id="websiteIndicator"><input readonly></div>
+                <br>
+                <div class="flex" style="justify-content: space-between;">
+                    <div></div>
+                    <a target="_blank" href=""><button>Open Link</button></a>
+                </div>
+            </div>
+
+                <div id="closeModal"><img src="/assets/close.png" alt=""></div>
+
+
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/script.js"></script>
+</body>
+
+</html>
