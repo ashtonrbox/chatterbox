@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Ashton Box",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "description": "A local chat app for WiFi networks.",
   "devDependencies": {
     "electron": "^35.1.5"
   },
@@ -17,5 +16,10 @@
     "open-graph-scraper": "^6.10.0",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashtonrbox/chatterbox"
+  },
+  "keywords": ["electron", "chat", "local", "socket.io", "WiFi"]
 }
