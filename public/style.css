@@ -212,6 +212,18 @@ textarea::placeholder {
     display: none;
 }
 
+#hostWelcome {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.gifLogo {
+    height: 105px;
+}
+
 #realColorPicker {
     width: 0px;
     border: 0px;
@@ -734,6 +746,7 @@ a {
     left: 10px;
 }
 
+
 @media only screen and (min-width: 0px) and (max-width: 1380px) {
     #messageForm {
         width: calc(60%);
@@ -755,7 +768,7 @@ a {
 }
 
 @media only screen and (min-width: 0px) and (max-width: 1200px) {
-    #welcome {
+    #welcome, #onBoarding {
         width: calc(550px) !important;
     }
 
@@ -788,12 +801,16 @@ a {
 }
 
 @media only screen and (min-width: 0px) and (max-width: 800px) {
-    #welcome {
+    #welcome, #onBoarding {
         width: calc(90% - 40px) !important;
     }
 
     #logo {
         height: 55px;
+    }
+
+    .gifLogo {
+        height: 95px;
     }
 }
 
@@ -824,6 +841,10 @@ a {
 
     #logo {
         height: 45px;
+    }
+
+    .gifLogo {
+        height: 85px;
     }
 
     #messages {

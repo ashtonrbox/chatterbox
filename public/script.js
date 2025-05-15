@@ -1,6 +1,6 @@
 // Global Variables
-const v = "v1.0.0-w";
-const hv = "v1.0.0-e";
+const v = "v1.0.6-w";
+const hv = "v1.1.2-e";
 
 let username;
 let color;
@@ -261,7 +261,7 @@ socket.on('chat message', (data) => {
             }
         }
 
-        if (!tabActive) {
+        if (!tabActive && username !== undefined) {
             notifications++;
             document.head.querySelector("title").textContent = "(" + notifications + ") Chatterbox";
         }
@@ -379,6 +379,8 @@ const url = new URL(document.location.href)
 channel = new URLSearchParams(url.search)
 channel = channel.get("channel")
 
+const hostWelcome = document.getElementById("hostWelcome")
+const onBoarding = document.getElementById("onBoarding")
 const gate = document.getElementById("gate")
 const messageArea = document.getElementById("messageArea")
 const enterUser = document.getElementById("enter")
@@ -395,6 +397,8 @@ const modalDiv = document.getElementById("modal")
 const linkModal = modalDiv.querySelector("#linkModal")
 const websiteModal = modalDiv.querySelector("#websiteModal")
 
+const welcomeContinue = document.getElementById("welcomeContinue")
+
 const link = document.getElementById("link")
 const share = document.getElementById("share")
 const openLink = websiteModal.querySelector("button")
@@ -408,15 +412,31 @@ const websiteButton = document.getElementById("websiteButton")
 const websiteInput = document.getElementById("websiteInput")
 const display = document.getElementById("display")
 
-gate.style.display = "block"
-
-if (host) {
-    gate.querySelector("h5").textContent = hv
-} else {
-    gate.querySelector("h5").textContent = v
-}
+gate.querySelector("h5").textContent = host ? hv : v
 
 if (localStorage) {
+
+    if (host) {
+        if (localStorage.getItem("opened") === "true") {
+            gate.style.display = "block";
+        } else {
+            hostWelcome.style.display = "block";
+
+            document.addEventListener("DOMContentLoaded", function () {
+                setTimeout(() => {
+                    onBoarding.innerHTML = `<img class="gifLogo" src="/assets/logo.gif">`
+                }, 500)
+
+                setTimeout(() => {
+                    modal("#welcomeModal")
+                }, 3000)
+            })
+
+        }
+    } else {
+        gate.style.display = "block";
+    }
+
     if (localStorage.getItem("username")) {
         usernameInput.value = localStorage.getItem("username");
     }
@@ -425,7 +445,16 @@ if (localStorage) {
         realColorPicker.value = localStorage.getItem("color");
         colorPicker.style.backgroundColor = realColorPicker.value;
     }
+
 }
+
+welcomeContinue.addEventListener("click", function () {
+    modalDiv.querySelector("#closeModal").click()
+    hostWelcome.style.display = "none";
+    gate.style.display = "block";
+    
+    localStorage.setItem("opened", "true");
+})
 
 enterUser.addEventListener("click", function () {
 
@@ -476,15 +505,15 @@ closeModal.addEventListener("click", function () {
     }, 500)
 })
 
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modalDiv.style.display !== 'none') {
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modalDiv.style.display !== 'none' && modalDiv.querySelector("#welcomeModal").style.display !== "block") {
         closeModal.click();
     }
 });
 
 modalDiv.addEventListener("mousedown", function (e) {
-    if (e.target.classList.contains("clickOff")) {
-        modalDiv.querySelector('#closeModal').click();
+    if (e.target.classList.contains("clickOff") && modalDiv.querySelector("#welcomeModal").style.display !== "block") {
+        closeModal.click();
     }
 })
 
@@ -493,6 +522,13 @@ link.addEventListener('click', function () {
 })
 
 function modal(modalContent, extra) {
+
+    if (modalContent === "#welcomeModal") {
+        modalDiv.querySelector("#closeModal").style.display = "none";
+    } else {
+        modalDiv.querySelector("#closeModal").style.display = "block";
+    }
+
     modalDiv.querySelectorAll(".content").forEach(content => {
         content.style.display = "none";
     })
