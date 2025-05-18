@@ -138,7 +138,7 @@ If you have come across any errors while using Chatterbox, please see fixes belo
 
 ## License
 
-This project is open source, but commercial or large-scale use requires permission.
+This project is open source, but commercial or large-scale use requires permission. <br>
 See LICENSE.md for details on how to contact.
 
 <br>
@@ -149,8 +149,8 @@ See LICENSE.md for details on how to contact.
 
 ## Contact
 
-Made with ❤️ by Ashton Box
-If you want to contribute, open an issue or reach out!
+Made with ❤️ by Ashton Box <br>
+If you want to contribute, open an issue or reach out! <br>
 See LICENSE.md for details on how to contact.
 
 </div>
