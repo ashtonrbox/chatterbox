@@ -1,7 +1,8 @@
 <div align="center">
 
 
-![chatterbox style guide](https://github.com/user-attachments/assets/3cb6541e-c0f5-4c53-9ed4-380c0dbfdae9)
+
+![Main](https://github.com/user-attachments/assets/1748f9c4-fd6f-422e-9bcf-0990a339efc2)
 
 <h1 align="center"> Chatterbox 💬 </h1>
 <p align="center">
