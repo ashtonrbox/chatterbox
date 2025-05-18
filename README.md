@@ -10,7 +10,7 @@
 
 <br>
 
-[Features](#👋-Features) | 
+[Features](#features) | 
 [Install](#install) |
 [Errors](#errors) |
 [Usage](#usage) |
@@ -23,7 +23,7 @@
 
 <br>
 
-## 👋 Features
+## Features
 <p>
 💬 Chat with others on the same WiFi
 
