@@ -127,7 +127,7 @@ If you have come across any errors while using Chatterbox, please see fixes belo
 - Open the app on one device to act as the host <br>
 - Others can join by visiting the URL found after clicking 'Share Link' in the app <br>
 - Chat in real-time with colorful usernames <br>
-- Host must stay online — closing the app stops the chat server <br>
+- Host must stay online - closing the app stops the chat server <br>
 </p>
 
 <br>
