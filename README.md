@@ -50,6 +50,29 @@
 
 There are 2 ways to install Chatterbox. You can either head to the [releases page](https://github.com/ashtonrbox/Chatterbox/releases) and install the latest version. <br>
 If your device asks whether you want to allow Chatterbox to access public and private networks, please select ‘Allow’. Otherwise, Chatterbox may not work properly.
+<br> 
+### OR
+<br>
+You can use your terminal! Here's how:
+
+###### 1. Clone the Repo
+```
+git clone https://github.com/ashtonrbox/Chatterbox.git
+```
+###### 2. Install dependencies
+```
+npm install
+```
+###### 3. Run the app in dev mode
+```
+npm start
+```
+###### 4. Build the app
+```
+npm run make
+```
+_Output will be in the out/ directory. If you are using MacOS, I recommend moving the .app file to your Applications folder._
+
 
 <br>
 
