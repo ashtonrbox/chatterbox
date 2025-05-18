@@ -368,7 +368,7 @@ if (!host) {
 // Begin
 
 if (host) {
-    document.getElementById("welcome").querySelector("p").innerHTML = "Welcome to Chatterbox! Since you're running the Chatterbox app, you're the host of this chat session. If you close the app, the server will shut down - meaning all chats will be lost and no one will be able to join until it's reopened. <br><br> To join the chat, simply enter a username and pick a colour!"
+    document.getElementById("welcome").querySelector("p").innerHTML = "Welcome to Chatterbox! Since you're running the Chatterbox app, you're the host of this chat session. If you close the app, the server will shut down - meaning all chats will be lost and no one will be able to join until it's reopened. <br><br> To join the chat, simply enter a username and pick a color!"
 } else {
     if (document.getElementById("hostOnly")) {
         document.getElementById("hostOnly").remove()
