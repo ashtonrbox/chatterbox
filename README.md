@@ -8,6 +8,9 @@
 👋 Welcome to Chatterbox - a service that lets you message others on the same WiFi as you! Whether you're in class, at home, or on a road trip with friends, just pick a name, choose a color, and start chatting - no logins or setup needed!
 </p>
 
+![GitHub release](https://img.shields.io/github/v/release/ashtonrbox/Chatterbox)
+![GitHub issues](https://img.shields.io/github/issues/ashtonrbox/Chatterbox)
+
 <br>
 
 [Features](#features) | 
@@ -47,9 +50,8 @@
 <br>
 
 ## Install
-
-There are 2 ways to install Chatterbox. You can either head to the [releases page](https://github.com/ashtonrbox/Chatterbox/releases) and install the latest version. <br>
-If your device asks whether you want to allow Chatterbox to access public and private networks, please select ‘Allow’. Otherwise, Chatterbox may not work properly.
+![GitHub release](https://img.shields.io/github/v/release/ashtonrbox/Chatterbox) <br>
+There are 2 ways to install Chatterbox. You can either head to the [releases page](https://github.com/ashtonrbox/Chatterbox/releases) and install the latest version,
 <br> 
 ### OR
 <br>
