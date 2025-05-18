@@ -12,6 +12,8 @@ Chatterbox is a service that lets you message others on the same WiFi as you. It
 [Features](#features) | 
 [Install](#getting-started)
 
+![split](https://github.com/user-attachments/assets/bff72198-5160-4ae1-bac7-83059ecaa6c3)
+
 <br><br>
 
 ## Features
@@ -36,4 +38,4 @@ Chatterbox is a service that lets you message others on the same WiFi as you. It
 ## Getting Started
 
 
-</div>![split](https://github.com/user-attachments/assets/bff72198-5160-4ae1-bac7-83059ecaa6c3)
+</div>
