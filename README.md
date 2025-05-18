@@ -5,7 +5,7 @@
 
 <h1 align="center"> Chatterbox 💬 </h1>
 <p align="center">
-👋 Welcome to Chatterbox - a service that lets you message others on the same WiFi as you! Whether you're in class, at home, or on a road trip with friends, just pick a name, choose a color, and start messaging instantly. No logins and no setup needed!
+👋 Welcome to Chatterbox - a service that lets you message others on the same WiFi as you! Whether you're in class, at home, or on a road trip with friends, just pick a name, choose a color, and start chatting - no logins or setup needed!
 </p>
 
 <br>
@@ -41,7 +41,9 @@
 </p>
 
 <br>
+
 ![split](https://github.com/user-attachments/assets/71d95f55-183b-42d0-a21b-d683cce8631e)
+
 <br>
 
 ## Install
@@ -50,12 +52,14 @@ There are 2 ways to install Chatterbox. You can either head to the [releases pag
 If your device asks whether you want to allow Chatterbox to access public and private networks, please select ‘Allow’. Otherwise, Chatterbox may not work properly.
 
 <br>
+
 ![split](https://github.com/user-attachments/assets/71d95f55-183b-42d0-a21b-d683cce8631e)
+
 <br>
 
 ## Errors
 
-If you have come across any errors while using Chatterbox, please see fixes below. If your error is not listed or the fix doesnt work, [please open a new issue.](https://github.com/ashtonrbox/Chatterbox/issues)
+If you have come across any errors while using Chatterbox, please see fixes below. If your error is not listed or the fix doesn't work, [please open a new issue.](https://github.com/ashtonrbox/Chatterbox/issues)
 
 <details>
 
@@ -86,7 +90,9 @@ If you have come across any errors while using Chatterbox, please see fixes belo
 </details>
 
 <br>
+
 ![split](https://github.com/user-attachments/assets/71d95f55-183b-42d0-a21b-d683cce8631e)
+
 <br>
 
 ## Usage
@@ -99,7 +105,9 @@ If you have come across any errors while using Chatterbox, please see fixes belo
 </p>
 
 <br>
+
 ![split](https://github.com/user-attachments/assets/71d95f55-183b-42d0-a21b-d683cce8631e)
+
 <br>
 
 ## License
@@ -107,7 +115,11 @@ If you have come across any errors while using Chatterbox, please see fixes belo
 This project is open source, but commercial or large-scale use requires permission.
 See LICENSE.md for details on how to contact.
 
-<br><br>
+<br>
+
+![split](https://github.com/user-attachments/assets/71d95f55-183b-42d0-a21b-d683cce8631e)
+
+<br>
 
 ## Contact
 
