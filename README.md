@@ -61,6 +61,7 @@ You can use your terminal! Here's how:
 ###### 1. Clone the Repo
 ```
 git clone https://github.com/ashtonrbox/Chatterbox.git
+cd Chatterbox
 ```
 ###### 2. Install dependencies
 ```
