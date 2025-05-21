@@ -67,11 +67,7 @@ cd Chatterbox
 ```
 npm install
 ```
-###### 3. Run the app in dev mode
-```
-npm start
-```
-###### 4. Build the app
+###### 3. Build the app
 ```
 npm run make
 ```
