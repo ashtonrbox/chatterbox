@@ -58,21 +58,38 @@ There are 2 ways to install Chatterbox. You can either head to the [releases pag
 <br>
 You can manually install using the terminal! Here's how:
 
-###### 1. Open the Terminal app and clone the Repo:
+
+
+<div align="left">
+
+<br>
+
+🔧 Prerequisites (Install These First!) <br>
+Before you can build Chatterbox, you’ll need:
+
+* [Git](https://git-scm.com/downloads) - used to download the project from GitHub
+
+* [Node.js](https://nodejs.org/en/download) - includes npm, which is needed to install the app's dependencies
+
+###### 1. Clone the Repo:
+Once Git & Node.js are installed, open up the Terminal app and type these commands in. This just grabs the files from GitHub and opens the new folder!
 ```
 git clone https://github.com/ashtonrbox/Chatterbox.git
 cd Chatterbox
 ```
 ###### 2. Install dependencies
+This part may take a while. This just installs everything else needed for Chatterbox to run correctly.
 ```
 npm install
 ```
 ###### 3. Build the app
+Now, you can actually make the .app file! This part also may take a bit.
 ```
 npm run make
 ```
 _Output will be in the out/ directory. If you are using MacOS, I recommend moving the .app file to your Applications folder._
 
+</div>
 
 <br>
 
