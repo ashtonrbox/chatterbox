@@ -56,9 +56,9 @@ There are 2 ways to install Chatterbox. You can either head to the [releases pag
 <br> 
 ### OR
 <br>
-You can use your terminal! Here's how:
+You can manually install using the terminal! Here's how:
 
-###### 1. Clone the Repo
+###### 1. Open the Terminal app and clone the Repo:
 ```
 git clone https://github.com/ashtonrbox/Chatterbox.git
 cd Chatterbox
