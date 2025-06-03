@@ -5,6 +5,8 @@ const hv = "v1.1.2-e";
 let username;
 let color;
 
+const userID = createID("user", new Date().toLocaleTimeString('en', { hour12: true }).replaceAll(/ |:/g, ""));
+
 let server;
 let channel;
 
@@ -84,13 +86,16 @@ document.getElementById('sendButton').addEventListener('click', (e) => {
 
     if (input.value.trim() !== '') {
 
+        let currentTime = new Date().toLocaleTimeString('en', { hour12: true });
+
         const messageData = {
             user: username,
             color: color,
             message: input.value,
             attachment: attachment,
             attachmentStyle: attachmentStyle,
-            date: new Date().toLocaleTimeString('en', { hour12: true }),
+            date: currentTime,
+            id: createID("message",currentTime.replaceAll(/ |:/g, "")),
             channel: channel
         };
 
@@ -109,6 +114,7 @@ socket.on('chat message', (data) => {
 
         let innerMessage = document.createElement("div")
         innerMessage.classList.add("innerMessage")
+        innerMessage.id = data.id
 
         let userDiv = document.createElement("div")
         userDiv.classList.add("user")
@@ -365,6 +371,49 @@ if (!host) {
     }
 }
 
+
+function createID(type, stamp) {
+
+    if (type && stamp) {
+
+        let identifyString = "";
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (let i = 0; i < 20; i++) {
+            identifyString += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        if (type === "user") {
+
+            return (`CHATTERBOX_USER_${stamp}_${identifyString}`);
+
+        } else if (type === "message") {
+
+            return (`CHATTERBOX_MESSAGE_${stamp}_${identifyString}`);
+
+        } else {
+            return "ERROR | FALSE ID";
+        }
+    }
+
+}
+
+function locateMessageOfID(id) {
+    let message = document.getElementById(id);
+
+    if (message) {
+
+        let returnObject = {
+            user: message.querySelector(".userInfo").querySelector("h2").textContent,
+            color: message.querySelector(".userInfo").querySelector("h2").style.color,
+            message: message.querySelector("p").textContent,
+            messageDiv: message
+        }
+
+        return returnObject;
+    }
+}
+
 // Begin
 
 if (host) {
@@ -414,10 +463,18 @@ const display = document.getElementById("display")
 
 gate.querySelector("h5").textContent = host ? hv : v
 
+let localStorageData;
+
 if (localStorage) {
 
+    if (localStorage.getItem("CHATTERBOX_DATA")) {
+        localStorageData = JSON.parse(localStorage.getItem("CHATTERBOX_DATA"));
+    } else {
+        localStorageData = {};
+    }
+
     if (host) {
-        if (localStorage.getItem("opened") === "true") {
+        if (localStorageData["opened"] === "true") {
             gate.style.display = "block";
         } else {
             hostWelcome.style.display = "block";
@@ -437,12 +494,12 @@ if (localStorage) {
         gate.style.display = "block";
     }
 
-    if (localStorage.getItem("username")) {
-        usernameInput.value = localStorage.getItem("username");
+    if (localStorageData["username"]) {
+        usernameInput.value = localStorageData["username"];
     }
 
-    if (localStorage.getItem("color")) {
-        realColorPicker.value = localStorage.getItem("color");
+    if (localStorageData["color"]) {
+        realColorPicker.value = localStorageData["color"];
         colorPicker.style.backgroundColor = realColorPicker.value;
     }
 
@@ -452,8 +509,9 @@ welcomeContinue.addEventListener("click", function () {
     modalDiv.querySelector("#closeModal").click()
     hostWelcome.style.display = "none";
     gate.style.display = "block";
-    
-    localStorage.setItem("opened", "true");
+
+    localStorageData["opened"] = "true";
+    localStorage.setItem("CHATTERBOX_DATA", JSON.stringify(localStorageData));
 })
 
 enterUser.addEventListener("click", function () {
@@ -463,13 +521,15 @@ enterUser.addEventListener("click", function () {
         username = usernameInput.value;
         color = realColorPicker.value;
 
-        localStorage.setItem("username", username);
-        localStorage.setItem("color", color);
+        localStorageData["username"] = username;
+        localStorageData["color"] = color;
+        localStorage.setItem("CHATTERBOX_DATA", JSON.stringify(localStorageData));
 
         const joinData = {
             user: username,
             color: color,
             host: host,
+            id: userID,
             channel: channel,
         };
 
