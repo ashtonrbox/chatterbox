@@ -1,9 +1,14 @@
 // Global Variables
-const v = "v1.0.6-w";
-const hv = "v1.1.2-e";
+const v = "v1.5.0-w";
+const hv = "v1.1.5-e";
+
+let padding = 205;
 
 let username;
 let color;
+
+let replyActive = false;
+let replyData = null;
 
 const userID = createID("user", new Date().toLocaleTimeString('en', { hour12: true }).replaceAll(/ |:/g, ""));
 
@@ -39,7 +44,7 @@ document.getElementById('sendButton').addEventListener('click', (e) => {
     const input = document.getElementById('messageInput');
 
     let attachment;
-    let attachmentStyle;
+    let attachmentStyle = "NOTHING";
 
     document.querySelectorAll(".attachPanel").forEach(panel => {
         if (panel.style.display === "block" && panel.id !== "baseAttachment") {
@@ -64,17 +69,24 @@ document.getElementById('sendButton').addEventListener('click', (e) => {
                 case "websiteAttachment":
                     if (document.getElementById("websiteInput").value.trim() !== "") {
                         if (websiteAttachmentHold.loading === false) {
-                            if (websiteAttachmentHold.full) {
-                                attachment = {
-                                    image: websiteAttachmentHold.image,
-                                    title: websiteAttachmentHold.title,
-                                    desc: websiteAttachmentHold.desc,
-                                    link: websiteAttachmentHold.url
-                                };
-                                attachmentStyle = "website";
+                            if (websiteAttachmentHold.full && websiteAttachmentHold.url) {
+                                if (websiteAttachmentHold.full) {
+                                    attachment = {
+                                        image: websiteAttachmentHold.image,
+                                        title: websiteAttachmentHold.title,
+                                        desc: websiteAttachmentHold.desc,
+                                        link: websiteAttachmentHold.url
+                                    };
+                                    attachmentStyle = "website";
+                                } else {
+                                    attachment = websiteAttachmentHold.url.toString();
+                                    attachmentStyle = "website";
+                                }
                             } else {
-                                attachment = websiteAttachmentHold.url.toString();
-                                attachmentStyle = "website";
+                                if (websiteAttachmentHold.url) {
+                                    attachment = websiteAttachmentHold.url.toString();
+                                    attachmentStyle = "website";
+                                }
                             }
                         }
                     }
@@ -84,7 +96,13 @@ document.getElementById('sendButton').addEventListener('click', (e) => {
         }
     })
 
-    if (input.value.trim() !== '') {
+    let replyInfo = null;
+    if (replyActive) {
+        replyInfo = document.getElementById("replyDisplay").getAttribute("gather");
+        document.getElementById("closeReply").click()
+    }
+
+    if (input.value.trim() !== '' || attachmentStyle !== "NOTHING") {
 
         let currentTime = new Date().toLocaleTimeString('en', { hour12: true });
 
@@ -95,12 +113,15 @@ document.getElementById('sendButton').addEventListener('click', (e) => {
             attachment: attachment,
             attachmentStyle: attachmentStyle,
             date: currentTime,
-            id: createID("message",currentTime.replaceAll(/ |:/g, "")),
-            channel: channel
+            id: createID("message", currentTime.replaceAll(/ |:/g, "")),
+            channel: channel,
+            limitedUserId: userID.slice(-10),
+            reply: replyInfo
         };
 
         socket.emit('chat message', messageData);
         input.value = '';
+        document.getElementById('largeMessageInput').value = '';
 
     }
 
@@ -114,10 +135,12 @@ socket.on('chat message', (data) => {
 
         let innerMessage = document.createElement("div")
         innerMessage.classList.add("innerMessage")
-        innerMessage.id = data.id
 
         let userDiv = document.createElement("div")
         userDiv.classList.add("user")
+
+        let userInfoHolder = document.createElement("div")
+        userInfoHolder.classList.add("userInfoHolder")
 
         let userColorDiv = document.createElement("div")
         userColorDiv.classList.add("userColor")
@@ -128,27 +151,84 @@ socket.on('chat message', (data) => {
         let userH2 = document.createElement("h2")
         userH2.textContent = data.user
         userH2.style.color = data.color
+        userH2.setAttribute("id", data.limitedUserId)
 
         let userH6 = document.createElement("h6")
         userH6.textContent = data.date
 
         let p = document.createElement("p")
+        p.classList.add("messageText")
         p.textContent = data.message
+
+        let messageHolder = document.createElement("div")
+        messageHolder.classList.add("messageHolder")
+        messageHolder.setAttribute("id", data.id)
+
+        messageHolder.addEventListener("click", (e) => {
+            if (e.target.classList.contains("messageText")) {
+
+                if (replyActive) {
+                    if (replyData === data.id) {
+                        displayReplyInfo("close", null);
+                        replyData = null;
+                    } else {
+                        displayReplyInfo("new", data.id);
+                        replyData = data.id;
+                    }
+                } else {
+                    displayReplyInfo("open", data.id);
+                    replyActive = true;
+                    replyData = data.id;
+                }
+
+                alterPadding()
+            }
+        })
+
+        let replyIndicator = document.createElement("div")
+        replyIndicator.classList.add("replyIndicator")
+
+        let replyIndicatorP = document.createElement("p")
+        let replyIndicatorSpan = document.createElement("span")
+
+        replyIndicator.appendChild(replyIndicatorP)
+        replyIndicator.appendChild(replyIndicatorSpan)
+
+        if (data.reply) {
+
+            let gather = locateMessageOfID(data.reply);
+
+            replyIndicatorP.textContent = gather.user + ": ";
+            replyIndicatorP.style.color = gather.color;
+            replyIndicatorSpan.textContent = gather.message;
+
+            replyIndicator.addEventListener("click", () => {
+                if (document.getElementById(data.reply)) {
+                    document.getElementById(data.reply).scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            })
+
+            messageHolder.appendChild(replyIndicator);
+
+        }
+
+        messageHolder.appendChild(p)
 
         userInfoDiv.appendChild(userH2)
         userInfoDiv.appendChild(userH6)
 
-        userDiv.appendChild(userColorDiv)
-        userDiv.appendChild(userInfoDiv)
+        userInfoHolder.appendChild(userColorDiv)
+        userInfoHolder.appendChild(userInfoDiv)
+
+        userDiv.appendChild(userInfoHolder)
 
         innerMessage.appendChild(userDiv)
-        innerMessage.appendChild(p)
+        innerMessage.appendChild(messageHolder)
 
         message.appendChild(innerMessage)
 
         message.querySelector(".userColor").style.backgroundColor = data.color + "b3";
         message.querySelector(".userColor").style.border = "3px solid " + data.color;
-        message.querySelector("p").style.fontSize = "22px";
 
         if (data.attachment && data.attachmentStyle) {
             switch (data.attachmentStyle) {
@@ -156,10 +236,11 @@ socket.on('chat message', (data) => {
 
                     let attachedDrawing = document.createElement("img");
                     attachedDrawing.classList.add("attachedDrawing");
+                    attachedDrawing.classList.add("attachment");
                     attachedDrawing.src = data.attachment;
                     attachedDrawing.draggable = false;
 
-                    message.querySelector(".innerMessage").appendChild(attachedDrawing);
+                    messageHolder.appendChild(attachedDrawing);
 
                     break;
 
@@ -167,6 +248,7 @@ socket.on('chat message', (data) => {
 
                     let attachedImage = document.createElement("img");
                     attachedImage.classList.add("attachedImage");
+                    attachedImage.classList.add("attachment");
                     attachedImage.draggable = false;
 
                     let blob = base64ToBlob(data.attachment.image, data.attachment.type);
@@ -174,7 +256,7 @@ socket.on('chat message', (data) => {
 
                     attachedImage.src = src
 
-                    message.querySelector(".innerMessage").appendChild(attachedImage);
+                    messageHolder.appendChild(attachedImage);
 
                     break;
 
@@ -183,6 +265,7 @@ socket.on('chat message', (data) => {
                     if (typeof data.attachment === "string") {
                         let attachedWebsite = document.createElement("div");
                         attachedWebsite.classList.add("attachedWebsite");
+                        attachedWebsite.classList.add("attachment");
 
                         let attachedLink = document.createElement("a");
                         attachedLink.href = data.attachment;
@@ -202,12 +285,13 @@ socket.on('chat message', (data) => {
                             modal("#websiteModal", attachedLink.href)
                         })
 
-                        message.querySelector(".innerMessage").appendChild(attachedWebsite);
+                        messageHolder.appendChild(attachedWebsite);
 
                     } else {
 
                         let attachedWebsite = document.createElement("div");
                         attachedWebsite.classList.add("attachedWebsite");
+                        attachedWebsite.classList.add("attachment");
 
                         let attachedLink = document.createElement("a");
                         attachedLink.href = data.attachment.link;
@@ -242,37 +326,68 @@ socket.on('chat message', (data) => {
                             modal("#websiteModal", attachedLink.href)
                         })
 
-                        message.querySelector(".innerMessage").appendChild(attachedWebsite);
+                        messageHolder.appendChild(attachedWebsite);
 
                     }
             }
         }
 
-        if (recent === username) {
-            document.querySelectorAll(".clear").forEach(clear => {
-                clear.click()
-            })
+        let shouldConsec;
 
-            document.getElementById("websiteInput").value = "";
-            display.querySelector("img").src = "/assets/imageT2.png"
-            display.querySelector("img").style.objectFit = "contain"
-
-            websiteAttachmentHold = {
-                loading: false,
-                full: null,
-                url: null,
-                image: null,
-                title: null,
-                desc: null
+        if (messages.lastChild.classList.contains("userConnectedP")) {
+            shouldConsec = false
+        } else {
+            if (typeof locateMessageOfID(collateLatestID()) !== 'string') {
+                if (locateMessageOfID(collateLatestID()).limitedUserId === data.limitedUserId) {
+                    shouldConsec = true
+                } else {
+                    shouldConsec = false
+                }
+            } else {
+                shouldConsec = false
             }
+        }
+
+        if (shouldConsec) {
+            let latestMessageDiv = locateMessageOfID(collateLatestID()).messageDiv;
+            latestMessageDiv.appendChild(messageHolder);
+
+            if (latestMessageDiv.querySelector("h6").textContent.includes(" - ")) {
+                latestMessageDiv.querySelector("h6").textContent = latestMessageDiv.querySelector("h6").textContent.split(" - ")[0] + " - " + data.date;
+            } else {
+                latestMessageDiv.querySelector("h6").textContent += " - " + data.date;
+            }
+        } else {
+            document.getElementById('messages').appendChild(message);
+        }
+
+        if (typeof locateMessageOfID(collateLatestID()) !== 'string') {
+
+            if (locateMessageOfID(collateLatestID()).limitedUserId === userID.slice(-10)) {
+                document.querySelectorAll(".clear").forEach(clear => {
+                    clear.click()
+                })
+
+                document.getElementById("websiteInput").value = "";
+                display.querySelector("img").src = "/assets/imageT2.png"
+                display.querySelector("img").style.objectFit = "contain"
+
+                websiteAttachmentHold = {
+                    loading: false,
+                    full: null,
+                    url: null,
+                    image: null,
+                    title: null,
+                    desc: null
+                }
+            }
+
         }
 
         if (!tabActive && username !== undefined) {
             notifications++;
             document.head.querySelector("title").textContent = "(" + notifications + ") Chatterbox";
         }
-
-        document.getElementById('messages').appendChild(message);
 
         if (document.querySelector('.lastRead')) {
             document.querySelector('.lastRead').scrollTo({
@@ -291,6 +406,7 @@ socket.on('chat message', (data) => {
 socket.on('user connected', (user) => {
     if (user.channel === channel) {
         const p = document.createElement('p');
+        p.classList.add("userConnectedP");
         if (user.host) {
             p.textContent = user.user + " (host) joined!";
         } else {
@@ -399,18 +515,32 @@ function createID(type, stamp) {
 }
 
 function locateMessageOfID(id) {
+    let loudMessage = document.getElementById(id).parentNode;
     let message = document.getElementById(id);
 
     if (message) {
 
         let returnObject = {
-            user: message.querySelector(".userInfo").querySelector("h2").textContent,
-            color: message.querySelector(".userInfo").querySelector("h2").style.color,
-            message: message.querySelector("p").textContent,
-            messageDiv: message
+            user: loudMessage.querySelector(".userInfo").querySelector("h2").textContent,
+            color: loudMessage.querySelector(".userInfo").querySelector("h2").style.color,
+            message: message.querySelector(".messageText").textContent,
+            limitedUserId: loudMessage.querySelector(".userInfo").querySelector("h2").id,
+            messageDiv: loudMessage
         }
 
         return returnObject;
+    } else {
+        return "ERROR | MESSAGE NOT FOUND";
+    }
+}
+
+function collateLatestID() {
+    let messagesFound = messages.querySelectorAll(".messageHolder");
+
+    if (messagesFound.length > 0) {
+        return messagesFound[messagesFound.length - 1].id
+    } else {
+        return "ERROR | NO MESSAGES FOUND";
     }
 }
 
@@ -422,6 +552,25 @@ if (host) {
     if (document.getElementById("hostOnly")) {
         document.getElementById("hostOnly").remove()
     }
+}
+
+const globalResizer = new ResizeObserver(() => {
+    alterPadding()
+});
+globalResizer.observe(document.body);
+
+function alterPadding() {
+    if (window.innerWidth < 500) {
+        padding = 300;
+    } else {
+        padding = 205;
+    }
+
+    if (replyActive) {
+        padding += 80;
+    }
+
+    document.documentElement.style.setProperty("--MESSAGESPADDING", `${padding}px`);
 }
 
 const url = new URL(document.location.href)
@@ -460,6 +609,9 @@ const attachment = document.getElementById("attachment")
 const websiteButton = document.getElementById("websiteButton")
 const websiteInput = document.getElementById("websiteInput")
 const display = document.getElementById("display")
+
+const replyDisplay = document.getElementById("replyDisplay")
+const closeReply = document.getElementById("closeReply")
 
 gate.querySelector("h5").textContent = host ? hv : v
 
@@ -577,6 +729,48 @@ modalDiv.addEventListener("mousedown", function (e) {
     }
 })
 
+function displayReplyInfo(style, id) {
+
+    if (style === "open") {
+        let gather = locateMessageOfID(id);
+
+        replyDisplay.setAttribute("gather", id)
+
+        replyDisplay.style.display = "flex";
+        replyDisplay.querySelector("#replyUser").textContent = gather.user;
+        replyDisplay.querySelector("#replyUser").style.color = gather.color;
+        replyDisplay.querySelector("#quote").textContent = gather.message;
+
+        replyDisplay.style.animation = "reply 0.3s ease";
+        setTimeout(() => {
+            replyDisplay.style.animation = "";
+        }, 290)
+    } else if (style === "new") {
+        let gather = locateMessageOfID(id);
+
+        replyDisplay.setAttribute("gather", id)
+
+        replyDisplay.style.display = "flex";
+        replyDisplay.querySelector("#replyUser").textContent = gather.user;
+        replyDisplay.querySelector("#replyUser").style.color = gather.color;
+        replyDisplay.querySelector("#quote").textContent = gather.message;
+    } else {
+        replyActive = false;
+        replyDisplay.style.animation = "close 0.3s ease";
+        setTimeout(() => {
+            replyDisplay.style.display = "none";
+            replyDisplay.style.animation = "";
+        }, 290)
+    }
+
+    alterPadding()
+
+}
+
+closeReply.addEventListener("click", function () {
+    displayReplyInfo("close", null);
+})
+
 link.addEventListener('click', function () {
     link.querySelector('input').select()
 })
@@ -607,12 +801,63 @@ function modal(modalContent, extra) {
     }, 600)
 }
 
+function isNearBottom(threshold = 450) {
+    const { scrollTop, scrollHeight, clientHeight } = messages;
+    return scrollHeight - scrollTop - clientHeight <= threshold;
+}
+
+function isAtBottom(threshold = 50) {
+    const { scrollTop, scrollHeight, clientHeight } = messages;
+    return scrollHeight - scrollTop - clientHeight <= threshold;
+}
+
 function scrollBottom() {
+
+    if (isNearBottom()) {
+        document.getElementById('messages').scrollTo({
+            top: document.getElementById('messages').scrollHeight,
+            behavior: 'smooth'
+        });
+    } else {
+        notify("newMessage");
+    }
+
+}
+
+let notificationPopup = document.getElementById("notification");
+function notify(style) {
+
+    if (style === "newMessage") {
+        notificationPopup.style.display = "block";
+        notificationPopup.style.animation = "reply 0.3s ease";
+        setTimeout(() => {
+            notificationPopup.style.animation = "";
+        }, 290)
+    }
+
+}
+
+messages.onscroll = function () {
+    if (isAtBottom()) {
+        notificationPopup.style.animation = "replyClose 0.3s ease";
+        setTimeout(() => {
+            notificationPopup.style.animation = "";
+            notificationPopup.style.display = "none";
+        }, 290)
+    }
+}
+
+notificationPopup.addEventListener("click", function () {
+    notificationPopup.style.animation = "replyClose 0.3s ease";
+    setTimeout(() => {
+        notificationPopup.style.animation = "";
+        notificationPopup.style.display = "none";
+    }, 290)
     document.getElementById('messages').scrollTo({
         top: document.getElementById('messages').scrollHeight,
         behavior: 'smooth'
     });
-}
+})
 
 let attachmentButtons = addAttachment.querySelectorAll("div")
 attachmentButtons.forEach(attachmentLabel => {
@@ -891,6 +1136,7 @@ clearImage.addEventListener("click", function () {
 // Large Message 
 const falseButton = document.getElementById('falseButton');
 const largeInput = document.getElementById('largeMessageInput')
+const rInput = document.getElementById('messageInput')
 
 falseButton.addEventListener("click", function (e) {
     e.preventDefault();
@@ -899,8 +1145,8 @@ falseButton.addEventListener("click", function (e) {
     document.getElementById('sendButton').click();
 
     largeInput.value = "";
+    rInput.value = "";
 })
-
 
 largeInput.addEventListener('keydown', (e) => {
     if (e.key === "Enter") {
@@ -909,9 +1155,18 @@ largeInput.addEventListener('keydown', (e) => {
         document.getElementById('messageInput').value = largeInput.value;
         document.getElementById('sendButton').click();
 
-        e.target.value = ""
+        largeInput.value = ""
+        rInput.value = ""
     }
 });
+
+largeInput.addEventListener("input", function () {
+    rInput.value = largeInput.value
+})
+
+rInput.addEventListener("input", function () {
+    largeInput.value = rInput.value
+})
 
 // Website
 websiteButton.addEventListener("click", function (e) {
@@ -921,7 +1176,7 @@ websiteButton.addEventListener("click", function (e) {
 })
 
 function fetchLinkPreview(url) {
-    url = url.toLowerCase()
+    
     if (url.charAt(0) !== "h" && !url.includes("http")) {
         url = "https://" + url
     }

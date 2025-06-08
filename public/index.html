@@ -71,77 +71,91 @@
                 <div id="messages"></div>
             </div>
 
-            <form id="messageForm" action="">
+            <div id="bottom" style="pointer-events: none;">
 
-                <div id="addAttachment">
-                    <div id="base"> <img draggable="false" src="/assets/message.png" alt="">
-                        <h4 class="attachmentH4">Message</h4>
+                <h4 style="pointer-events: all;" id="notification">New messages!</h4>
+
+                <div id="replyDisplay">
+                    <div>
+                        <h4>Replying to <span id="replyUser">__</span></h4>
+                        <p>"<span id="quote"></span>"</p>
                     </div>
 
-                    <div id="drawing"> <img draggable="false" src="/assets/drawing.png" alt="">
-                        <h4 class="attachmentH4">Drawing</h4>
-                    </div>
-                    <div id="image"> <img draggable="false" src="/assets/image.png" alt="">
-                        <h4 class="attachmentH4">Image</h4>
-                    </div>
-                    <div id="website"> <img draggable="false" src="/assets/website.png" alt="">
-                        <h4 class="attachmentH4">Website</h4>
-                    </div>
+                    <img id="closeReply" src="/assets/close.png" draggable="false" alt="">
                 </div>
 
-                <div id="mainSection">
-                    <div class="flex" id="attraction">
-                        <input placeholder="Type message here..." autocomplete="off" id="messageInput" />
-                        <button type="submit" id="sendButton">Send!</button>
+                <form id="messageForm" action="" style="pointer-events: all;">
+
+                    <div id="addAttachment">
+                        <div id="base"> <img draggable="false" src="/assets/message.png" alt="">
+                            <h4 class="attachmentH4">Message</h4>
+                        </div>
+
+                        <div id="drawing"> <img draggable="false" src="/assets/drawing.png" alt="">
+                            <h4 class="attachmentH4">Drawing</h4>
+                        </div>
+                        <div id="image"> <img draggable="false" src="/assets/image.png" alt="">
+                            <h4 class="attachmentH4">Image</h4>
+                        </div>
+                        <div id="website"> <img draggable="false" src="/assets/website.png" alt="">
+                            <h4 class="attachmentH4">Website</h4>
+                        </div>
                     </div>
-                    <div id="attachment">
 
-                        <div class="attachPanel" id="baseAttachment">
-                            <div class="flex">
-                                <textarea placeholder="Type message here..." autocomplete="off" name=""
-                                    id="largeMessageInput"></textarea>
-                                <button id="falseButton">Send!</button>
+                    <div id="mainSection">
+                        <div class="flex" id="attraction">
+                            <input placeholder="Type message here..." autocomplete="off" maxlength="680" id="messageInput" />
+                            <button type="submit" id="sendButton">Send!</button>
+                        </div>
+                        <div id="attachment">
+
+                            <div class="attachPanel" id="baseAttachment">
+                                <div class="flex">
+                                    <textarea placeholder="Type message here..." maxlength="680" autocomplete="off" name=""
+                                        id="largeMessageInput"></textarea>
+                                    <button id="falseButton">Send!</button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="attachPanel" id="drawingAttachment">
-                            <div class="clear" title="Reset" id="clear"><img src="/assets/clear.png" alt=""></div>
-                            <canvas willReadFrequently="true"></canvas>
-                        </div>
-
-                        <div class="attachPanel" id="imageAttachment">
-                            <div id="fit">
-                                <input type="file" accept="image/*" id="imageInput" />
-                                <img draggable="false" src="/assets/imageT.png">
-                                <div class="clear" title="Reset" id="clearImage"><img class="no" src="/assets/clear.png"
-                                        alt=""></div>
+                            <div class="attachPanel" id="drawingAttachment">
+                                <div class="clear" title="Reset" id="clear"><img src="/assets/clear.png" alt=""></div>
+                                <canvas willReadFrequently="true"></canvas>
                             </div>
-                        </div>
 
-                        <div class="attachPanel" id="websiteAttachment">
+                            <div class="attachPanel" id="imageAttachment">
+                                <div id="fit">
+                                    <input type="file" accept="image/*" id="imageInput" />
+                                    <img draggable="false" src="/assets/imageT.png">
+                                    <div class="clear" title="Reset" id="clearImage"><img class="no"
+                                            src="/assets/clear.png" alt=""></div>
+                                </div>
+                            </div>
 
-                            <div id="inside">
+                            <div class="attachPanel" id="websiteAttachment">
 
-                                <div id="websiteInfo">
-                                    <div class="flex" style="height: 100%;">
-                                        <textarea type="text" autocomplete="off" placeholder="Enter URL..."
-                                            id="websiteInput"></textarea>
-                                        <button id="websiteButton" style="height: 100%;">Add</button>
+                                <div id="inside">
+
+                                    <div id="websiteInfo">
+                                        <div class="flex" style="height: 100%;">
+                                            <textarea type="text" autocomplete="off" placeholder="Enter URL..."
+                                                id="websiteInput"></textarea>
+                                            <button id="websiteButton" style="height: 100%;">Add</button>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div id="display">
-                                    <img draggable="false" src="/assets/imageT2.png" alt="">
+                                    <div id="display">
+                                        <img draggable="false" src="/assets/imageT2.png" alt="">
+                                    </div>
+
                                 </div>
 
                             </div>
 
                         </div>
-
                     </div>
-                </div>
 
-            </form>
+                </form>
+            </div>
         </div>
 
     </div>
@@ -171,12 +185,14 @@
 
             <div class="content" id="welcomeModal">
                 <h2 style="color: var(--accent); font-size: 29px;">Welcome to Chatterbox!</h2>
-                <p>Thank you for downloading Chatterbox! It's really easy to use - but if you'd like, you can read the documentation on GitHub!</p>
+                <p>Thank you for downloading Chatterbox! It's really easy to use - but if you'd like, you can read the
+                    documentation on GitHub!</p>
                 <br>
                 <div class="flex" style="justify-content: space-between;">
                     <div></div>
                     <div class="flex">
-                        <a target="_blank" href="https://github.com/ashtonrbox/chatterbox"><button>Read Documentation</button></a>
+                        <a target="_blank" href="https://github.com/ashtonrbox/chatterbox"><button>Read
+                                Documentation</button></a>
                         <button id="welcomeContinue">Continue</button>
                     </div>
                 </div>
