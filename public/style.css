@@ -14,6 +14,8 @@
     --textMargin: 10px 0 10px 0;
     --borderRadius: 15.5px;
     --buttonBorderRadius: 15.5px 14.5px 14.5px 15.5px;
+
+    --MESSAGESPADDING: 205px;
 }
 
 body {
@@ -126,6 +128,7 @@ h4 {
     letter-spacing: -0.55px;
     margin: 0px;
     padding: 0px;
+    color: var(--black);
 }
 
 h5 {
@@ -134,6 +137,11 @@ h5 {
     font-family: "inter";
     font-weight: 400;
     margin: 0;
+}
+
+.messageText {
+    font-size: 22px;
+    cursor: pointer;
 }
 
 button {
@@ -266,6 +274,16 @@ textarea::placeholder {
     width: 100%;
 }
 
+#bottom {
+    width: 100%;
+    position: fixed;
+    height: calc(205px + var(--gap) + 50px);
+    bottom: 0px;
+    left: 0;
+    display: flex;
+    justify-content: center;
+}
+
 #messageForm {
     position: fixed;
     width: calc(50%);
@@ -390,7 +408,6 @@ button#mobileShare {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: var(--grey);
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -418,8 +435,15 @@ button#mobileShare {
     margin: 0 !important;
 }
 
-.innerMessage>p {
+.messageTextHolder {
+    display: flex;
+}
+
+.messageHolder>p {
     margin-bottom: 0 !important;
+    max-width: 100%;
+    overflow: hidden;
+    word-break: break-word;
 }
 
 .userColor {
@@ -429,31 +453,49 @@ button#mobileShare {
     box-sizing: border-box;
 }
 
-.user {
+.userInfoHolder {
     display: flex;
     align-items: center;
     gap: var(--gap);
+    width: 100%;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
 }
 
 .userInfo>h2 {
     margin: 0;
     font-size: 25px;
     margin-top: -10px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .userInfo>h6 {
     margin: 0;
 }
 
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100% - 80px);
+}
+
 #messages {
+    padding-bottom: var(--MESSAGESPADDING);
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100vh;
     padding-top: 55px;
-    padding-bottom: 205px;
     box-sizing: border-box;
     overflow: scroll;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 #messages::-webkit-scrollbar {
@@ -746,16 +788,149 @@ a {
     left: 10px;
 }
 
+.reply {
+    cursor: pointer;
+}
+
+#replyUser {
+    display: block;
+    width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#replyDisplay {
+    pointer-events: all;
+    width: 30%;
+    height: 70px;
+    border-radius: 25px;
+    position: relative;
+    box-sizing: border-box;
+    border: 3px solid var(--grey);
+    background: var(--white);
+    padding: calc(var(--padding) + 2px);
+    display: flex;
+    justify-content: space-between;
+
+    display: none;
+}
+
+#replyDisplay p {
+    margin: 0;
+    opacity: 0.7;
+    width: 100%;
+    display: flex;
+}
+
+#replyDisplay h4 {
+    margin-top: -5px;
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+#replyDisplay img {
+    height: 20px;
+    cursor: pointer;
+}
+
+#replyDisplay>div{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100% - 20px);
+}
+
+#quote {
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    max-width: 100%;
+    text-overflow: ellipsis;
+}
+
+.replyIndicator>span {
+    color: var(--black);
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.replyIndicator>p {
+    margin: 0;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.replyIndicator {
+    box-sizing: border-box;
+    padding: var(--padding);
+    border-radius: var(--borderRadius);
+    cursor: pointer;
+    display: flex;
+    background: var(--grey);
+    margin-top: 10px;
+    align-items: center;
+    gap: 5px;
+    font-family: 'inter';
+    width: 100%;
+}
+
+#notification {
+    bottom: 200px;
+    position: fixed;
+    background: var(--accent);
+    padding: var(--padding);
+    border-radius: var(--borderRadius);
+    color: var(--white);
+    cursor: pointer;
+
+    display: none;
+}
+
+@keyframes reply {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes replyClose {
+    0% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+}
 
 @media only screen and (min-width: 0px) and (max-width: 1380px) {
     #messageForm {
         width: calc(60%);
+    }
+
+    #replyDisplay {
+        width: 40%;
     }
 }
 
 @media only screen and (min-width: 0px) and (max-width: 850px) {
     #messageForm {
         width: calc(90%);
+    }
+
+    #replyDisplay {
+        width: 90%;
     }
 
     #topBar {
@@ -819,6 +994,10 @@ a {
         width: calc(90%);
     }
 
+    #replyDisplay {
+        width: 90%;
+    }
+
     #topBar {
         width: calc(90%);
     }
@@ -847,7 +1026,4 @@ a {
         height: 85px;
     }
 
-    #messages {
-        padding-bottom: 300px;
-    }
 }
